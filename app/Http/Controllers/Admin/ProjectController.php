@@ -14,17 +14,16 @@ class ProjectController extends Controller
     public function index()
     {
         $project = project::all();
-        return view('auth.index', compact('project'));
+        return view('admin.dashboard', compact('project'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
-    {
-        //
+    { {
+        }
     }
-
     /**
      * Store a newly created resource in storage.
      */
