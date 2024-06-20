@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Project;
+use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class ProjectController extends Controller
 {
@@ -22,6 +24,7 @@ class ProjectController extends Controller
      */
     public function create()
     { {
+            return view("admin.project.create");
         }
     }
     /**
@@ -29,7 +32,13 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        $data['slug'] = Str::slug($data['title']);
+        $data['creation_date'] = Carbon::now()->format('Y-m-d');
+        $project = new Project();
+        $project->fill($data);
+        $project->save();
+        return view('admin.dashboard', compact('project'));
     }
 
     /**
