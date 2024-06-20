@@ -38,17 +38,16 @@ class ProjectController extends Controller
         $project = new Project();
         $project->fill($data);
         $project->save();
-        return view('admin.dashboard', compact('project'));
+        return redirect()->route("admin.projects.show", ["project" => $project->slug]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Project $project)
     {
-        //
+        return view('admin.project.show', compact('project'));
     }
-
     /**
      * Show the form for editing the specified resource.
      */
@@ -68,8 +67,10 @@ class ProjectController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Project $project)
     {
-        //
+
+        $project->delete();
+        return redirect()->route('admin.dashboard');
     }
 }

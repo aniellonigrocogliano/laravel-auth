@@ -26,6 +26,9 @@ Route::middleware('auth')
         Route::get('/', [ProjectController::class, 'index'])->name('dashboard');
         Route::get('/projects/create', [ProjectController::class, 'create'])->name('project.create');
         Route::post('/projects', [ProjectController::class, 'store'])->name('project.store');
+        Route::resource('projects', ProjectController::class)->parameters([
+            'projects' => 'project:slug'
+        ])->only(['show', 'destroy']);
     });
 
 require __DIR__ . '/auth.php';

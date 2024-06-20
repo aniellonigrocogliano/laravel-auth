@@ -42,6 +42,9 @@
                         <td>{{ $project->description }}</td>
                         <td>{{ $project->author }}</td>
                         <td>{{ $project->creation_date }}</td>
+                        <td>
+                        <td><a class="btn btn-outline-primary"
+                                href="{{ route('admin.projects.show', $project->slug) }}">Dettagli</a></td>
                     </tr>
                 @endforeach
             </tbody>
