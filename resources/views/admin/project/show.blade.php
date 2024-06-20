@@ -11,9 +11,9 @@
                 <p class="card-text">Contenuto: {{ $project->content }}</p>
             </div>
         </div>
-        <div class="d-flex flex-row justify-content-start align-items-center">
-            <a class="btn btn-outline-primary  g-3" href="{{ route('admin.dashboard') }}">Indietro</a>
-            <form action="{{ route('admin.projects.destroy', $project->slug) }}" method="POST"
+        <div class="d-flex justify-content-start align-items-center m-3">
+            <a class="btn btn-outline-primary  m-3" href="{{ route('admin.dashboard') }}">Indietro</a>
+            <form class="m-3"" action="{{ route('admin.projects.destroy', $project->slug) }}" method="POST"
                 onsubmit="return confirm('Sei sicuro di voler eliminare questo fumetto?');" class="d-inline">
                 @csrf
                 @method('DELETE')
