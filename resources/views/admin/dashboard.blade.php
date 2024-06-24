@@ -45,6 +45,17 @@
                         <td>
                         <td><a class="btn btn-outline-primary"
                                 href="{{ route('admin.projects.show', $project->slug) }}">Dettagli</a></td>
+                        <td><a class="btn btn-outline-warning"
+                                href="{{ route('admin.projects.edit', $project->slug) }}}">Modifica</a>
+                        <td>
+                            <form action="{{ route('admin.projects.destroy', $project->slug) }}" method="POST"
+                                onsubmit="return confirm('Sei sicuro di voler eliminare questo fumetto?');"
+                                class="d-inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-outline-danger">Elimina</button>
+                            </form>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>

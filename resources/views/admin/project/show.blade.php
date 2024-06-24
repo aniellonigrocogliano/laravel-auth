@@ -2,8 +2,9 @@
 
 @section('content')
     <div class="container m-3">
-        <div class="card ">
-            <div class="card-body m-3">
+        <div class="card" style="width: 18rem;">
+            <img src="{{ asset('storage/' . $project->cover_image) }}" class="card-img-top" alt="{{ $project->title }}">
+            <div class="card-body">
                 <h5 class="card-title">{{ $project->title }}</h5>
                 <p class="card-text">Autore: {{ $project->author }}</p>
                 <p class="card-text">Data di creazione: {{ $project->creation_date }}</p>

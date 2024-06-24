@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Project;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class ProjectController extends Controller
@@ -32,7 +33,12 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
+
         $data = $request->all();
+        if ($request->hasFile('cover_image')) {
+            $image_path = Storage::put('cover_image', $request->file('cover_image'));
+            $data['cover_image'] = $image_path;
+        }
         $data['slug'] = Str::slug($data['title']);
         $data['creation_date'] = Carbon::now()->format('Y-m-d');
         $project = new Project();
@@ -51,26 +57,45 @@ class ProjectController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+
+    public function edit(Project $project)
     {
-        //
+        return view('admin.project.edit', compact('project'));
     }
+
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Project $project)
     {
-        //
+        $data = $request->all();
+        $data['slug'] = Str::slug($data['title']);
+
+        if ($request->hasFile('cover_image')) {
+            if ($project->cover_image) {
+                Storage::delete($project->cover_image);
+            }
+            $image_path = Storage::put('post_images', $request->cover_image);
+            $data['cover_image'] = $image_path;
+        }
+
+
+        $project->update($data);
+        return redirect()->route('admin.dashboard', $project->slug)->with('message', 'post ' . $project->title . ' è stato modificato');
     }
+
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Project $project)
     {
+        if ($project->cover_image) {
+            Storage::delete($project->cover_image);
+        }
 
         $project->delete();
-        return redirect()->route('admin.dashboard');
+        return redirect()->route('admin.dashboard')->with('message', 'Il proggetto ' . $project->title . ' è stato cancellato');
     }
 }
